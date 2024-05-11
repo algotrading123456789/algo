@@ -159,6 +159,89 @@ def Buy():
 
 Buy()
 
+#Importing Plotly and making candles
+import plotly.graph_objects as go
+# Extract day from the 'Time' column
+day = candles.loc[0, 'Date'].strftime('%d-%m-%Y')
+
+# Create candlestick trace
+trace = go.Candlestick(x=candles.index,
+                    open=candles['Open'],
+                    high=candles['High'],
+                    low=candles['Low'],
+                    close=candles['Close'])
+                        
+
+# Create figure and add trace
+fig = go.Figure(data=[trace])
+
+
+# Add sliders for plot width and height
+width = st.sidebar.slider("Plot width", 1, 25, 15)  # Default value set to 15
+height = st.sidebar.slider("Plot height", 1, 25, 10)  # Default value set to 10
+
+# Update layout with the day in the title
+fig.update_layout(title=f'NIFTY 50 Candlestick Chart - {day}',
+                xaxis_title='Time',
+                yaxis_title='Price',
+                yaxis=dict(tickformat=",d"),  # Use comma as thousands separator and display full number
+                xaxis=dict(
+                    tickvals=list(range(len(candles))),
+                    ticktext=candles['Time'].apply(lambda x: x.strftime('%H:%M:%S'))
+                ))
+
+# Add horizontal lines for support and resistance
+fig.add_shape(type="line",
+            x0=candles.index[1], y0=candles['High'][1],
+            x1=candles.index[-1], y1=candles['High'][1],
+            line=dict(color="Purple", width=2, dash="dash"),
+            name="Resistance")
+fig.add_shape(type="line",
+            x0=candles.index[1], y0=candles['Low'][1],
+            x1=candles.index[-1], y1=candles['Low'][1],
+            line=dict(color="Black", width=2, dash="dash"),
+            name="Support")
+
+
+# Add annotations for labels
+fig.update_layout(annotations=[
+    dict(
+        x=candles.index[-1],
+        y=candles['High'][1],
+        xref="x",
+        yref="y",
+        text="Resistance",
+        showarrow=True,
+        font=dict(
+            color="Purple",
+            size=12
+        ),
+        ax=-30,
+        ay=-20
+    ),
+    dict(
+        x=candles.index[-1],
+        y=candles['Low'][1],
+        xref="x",
+        yref="y",
+        text="Support",
+        showarrow=True,
+        font=dict(
+            color="Black",
+            size=12
+        ),
+        ax=-30,
+        ay=20
+    )
+])
+
+
+# Display the plot
+st.plotly_chart(fig)
+
+
+# st.plotly_chart(fig)
+
 # Example usage:
 # Assuming candles, resistance, support, and it_money are defined
 #buy_calls_df, buy_puts_df = Buy(Nifty_Vix, candles, resistance, support, it_money)
