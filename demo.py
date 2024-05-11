@@ -1,11 +1,22 @@
 import streamlit as st
+# Custom CSS to set light background
+st.markdown(
+    """
+    <style>
+    body {
+        background-color: #f0f2f6;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 import requests
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 import pytz
 from datetime import datetime
-st.set_page_config(layout="wide", page_title="My Streamlit App", page_icon=":smiley:", theme="light")
+
 st.title('Welcome to Option Maniancs')
 
 class SpotPrice:
