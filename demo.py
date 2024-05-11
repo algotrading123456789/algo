@@ -6,7 +6,7 @@ import plotly.graph_objects as go
 import pytz
 from datetime import datetime
 
-st.title('Welcome to Option Maniancs')
+st.title('OptionsMaster: Navigate Your Trades')
 
 class SpotPrice:
     def __init__(self, identifier="NIFTY 50", name="NIFTY 50", timeout=5):
