@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 import pandas as pd
 import numpy as np
-import plotly.graph_objects as go
+#import plotly.graph_objects as go
 from datetime import datetime
 
 st.title('Welcome to Option Maniancs')
@@ -58,7 +58,7 @@ if __name__ == "__main__":
 
 
 #Importing Plotly and making candles
-import plotly.graph_objects as go
+#import plotly.graph_objects as go
 # Extract day from the 'Time' column
 day = candles.loc[0, 'Date'].strftime('%d-%m-%Y')
 
