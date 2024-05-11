@@ -1,15 +1,4 @@
 import streamlit as st
-# Custom CSS to set light background
-st.markdown(
-    """
-    <style>
-    body {
-        background-color: #f0f2f6;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
 import requests
 import pandas as pd
 import numpy as np
