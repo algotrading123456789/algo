@@ -126,6 +126,7 @@ print(f'Current spot price: {current_spot}; '
       f'Strike price for trade: {it_money}; '
       f'Nifty Vix data: {Nifty_Vix}')
 
+st.write(f'Jhaaathhhh le mera Vix: {Nifty_Vix}')
 
 import pandas as pd
 
