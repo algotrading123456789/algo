@@ -5,7 +5,7 @@ import numpy as np
 import plotly.graph_objects as go
 import pytz
 from datetime import datetime
-
+st.set_page_config(layout="wide")
 st.title('OptionsMaster: Navigate Your Trades')
 
 class SpotPrice:
