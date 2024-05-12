@@ -14,10 +14,10 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.x  # Replace x with the Python version you're using
+          python-version: 3.12.1 #  the Python version you're using
 
       - name: Install dependencies
-        run: pip install -r scripts/requirements.txt  # If you have any dependencies, list them in a requirements.txt file
+        run: pip install -r scripts/requirements.txt  # for the  dependencies, list them in a requirements.txt file
 
       - name: Run Python Script
-        run: python scripts/main.py  # Replace main.py with the path to your Python script
+        run: python scripts/Exp.py  # the path to for  Python script
