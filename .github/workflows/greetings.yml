@@ -2,7 +2,7 @@ name: Run Python Script
 
 on:
   schedule:
-    - cron: "*/ * * * *"  # Schedule to run the script every 30 minutes
+    - cron: "*/1 * * * *"  # Schedule to run the script every 30 minutes
 
 jobs:
   run_python_script:
@@ -17,7 +17,9 @@ jobs:
           python-version: 3.12.1 # the Python version you're using
 
       - name: Install dependencies
-        run: pip install -r requirements.txt  # assuming requirements.txt is in the root directory
+        run: |
+          pip install -r requirements.txt  # Install dependencies from requirements.txt
+          pip install streamlit  # Install streamlit module
 
       - name: Run Python Script
-        run: python Exp.py  # assuming Exp.py is in the root directory
+        run: python Exp.py  # Run the Python script
