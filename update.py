@@ -359,7 +359,7 @@ def run_trades_analysis():
 repo_owner = "algotrading123456789"
 repo_name = "algo"
 file_path = "trades_analysis.py"
-access_token = "your_github_access_token"
+access_token = "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"
 
 def update_github_file():
     url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/contents/{file_path}"
