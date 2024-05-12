@@ -338,15 +338,16 @@ def job():
         st.write("**Refrain from buying Put Options**")
         st.dataframe(buy_puts_df)
 
+
     if message:
         st.title(f"{message}")
 
-
-# Schedule the job to run every 15 minutes
-schedule.every(15).minutes.do(job)
+# Schedule the job to run every 5 minutes
+schedule.every(5).minutes.do(job)
 
 # Infinite loop to run the scheduler
 while True:
     schedule.run_pending()
-    time.sleep(1)  # Adjust sleep time if needed
+    time.sleep(1)
 
+job()
