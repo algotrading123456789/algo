@@ -2,7 +2,7 @@ name: Run Python Script
 
 on:
   schedule:
-    - cron: "*/5 * * * *"  # Schedule to run the script every 5 minutes
+    - cron: "*/ * * * *"  # Schedule to run the script every 5 minutes
 
 jobs:
   run_python_script:
