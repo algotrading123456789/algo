@@ -1,16 +1,23 @@
-name: Greetings
+name: Run Python Script
 
-on: [pull_request_target, issues]
+on:
+  schedule:
+    - cron: "0 0 * * *"  # Schedule to run the script daily at midnight
 
 jobs:
-  greeting:
+  run_python_script:
     runs-on: ubuntu-latest
-    permissions:
-      issues: write
-      pull-requests: write
     steps:
-    - uses: actions/first-interaction@v1
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        issue-message: "Message that will be displayed on users' first issue"
-        pr-message: "Message that will be displayed on users' first pull request"
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x  # Replace x with the Python version you're using
+
+      - name: Install dependencies
+        run: pip install -r scripts/requirements.txt  # If you have any dependencies, list them in a requirements.txt file
+
+      - name: Run Python Script
+        run: python scripts/main.py  # Replace main.py with the path to your Python script
