@@ -32,35 +32,35 @@ st.title('Navigate Your Trades')
 def job():
     # Defining the class for fetching the NSE option chain data
     class OptionChain:
-        def __init__(self, symbol="NIFTY", timeout=1):
-            self.url = "https://www.nseindia.com/api/option-chain-indices?symbol={}".format(symbol)
-            self._session = requests.sessions.Session()
-            self._session.headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.0.0 Safari/537.36", "Accept": "*/*", "Accept-Language": "en-US,en;q=0.5"}
-            self._timeout = timeout
-            self._session.get("https://www.nseindia.com/option-chain", timeout=5)
+    def __init__(self, symbol="NIFTY", timeout=1):
+        self.url = "https://www.nseindia.com/api/option-chain-indices?symbol={}".format(symbol)
+        self._session = requests.sessions.Session()
+        self._session.headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.0.0 Safari/537.36", "Accept": "*/*", "Accept-Language": "en-US,en;q=0.5"}
+        self._timeout = timeout
+        self._session.get("https://www.nseindia.com/option-chain", timeout=5)
 
-        def fetch_data(self, expiry_date=None, starting_strike_price=None, number_of_rows=2):
-            try:
-                data = self._session.get(url=self.url, timeout=5)
-                data = data.json()
-                df = pd.json_normalize(data["records"]["data"])
+    def fetch_data(self, expiry_date=None, starting_strike_price=None, number_of_rows=2):
+        try:
+            data = self._session.get(url=self.url, timeout=5)
+            data = data.json()
+            df = pd.json_normalize(data["records"]["data"])
 
-                # for getting the exceptional type of the data by using the if condition for null data
-                if starting_strike_price is not None:
-                    df = df[(df.strikePrice >= starting_strike_price)][:number_of_rows]
+            # for getting the exceptional type of the data by using the if condition for null data
+            if starting_strike_price is not None:
+                df = df[(df.strikePrice >= starting_strike_price)][:number_of_rows]
 
-                # similarly for the expiring data
-                if expiry_date is not None:
-                    df = df[(df.expiryDate == expiry_date)]
+            # similarly for the expiring data
+            if expiry_date is not None:
+                df = df[(df.expiryDate == expiry_date)]
 
-                return df
+            return df
 
 
-            except Exception as ex:
-                print("Error: {}".format(ex))
-                self._session.get("https://www.nseindia.com/option-chain", timeout=self._timeout)  # to renew the session
+        except Exception as ex:
+            print("Error: {}".format(ex))
+            self._session.get("https://www.nseindia.com/option-chain", timeout=self._timeout)  # to renew the session
 
-                return []
+            return []
 
 
     # Testing the data
@@ -74,7 +74,6 @@ def job():
             time.sleep(5)
             if time.time()-started_time: # you can edit number of timing according to your need here i just break the loop more then 5 sec
                 break
-
 
 
 
