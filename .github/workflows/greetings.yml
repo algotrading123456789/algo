@@ -2,7 +2,7 @@ name: Run Python Script
 
 on:
   schedule:
-    - cron: "*/ * * * *"  # Schedule to run the script every 5 minutes
+    - cron: "*/30 * * * *"  # Schedule to run the script every 30 minutes
 
 jobs:
   run_python_script:
@@ -17,7 +17,7 @@ jobs:
           python-version: 3.12.1 # the Python version you're using
 
       - name: Install dependencies
-        run: pip install -r scripts/requirements.txt  # for the dependencies, list them in a requirements.txt file
+        run: pip install -r scripts/requirements.txt  # assuming requirements.txt is in the scripts directory
 
       - name: Run Python Script
         run: python scripts/Exp.py  # the path to the Python script
