@@ -30,54 +30,6 @@ st.title('Navigate Your Trades')
 
 
 def job():
-    # Defining the class for fetching the NSE option chain data
-    class OptionChain:
-    def __init__(self, symbol="NIFTY", timeout=1):
-        self.url = "https://www.nseindia.com/api/option-chain-indices?symbol={}".format(symbol)
-        self._session = requests.sessions.Session()
-        self._session.headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.0.0 Safari/537.36", "Accept": "*/*", "Accept-Language": "en-US,en;q=0.5"}
-        self._timeout = timeout
-        self._session.get("https://www.nseindia.com/option-chain", timeout=5)
-
-    def fetch_data(self, expiry_date=None, starting_strike_price=None, number_of_rows=2):
-        try:
-            data = self._session.get(url=self.url, timeout=5)
-            data = data.json()
-            df = pd.json_normalize(data["records"]["data"])
-
-            # for getting the exceptional type of the data by using the if condition for null data
-            if starting_strike_price is not None:
-                df = df[(df.strikePrice >= starting_strike_price)][:number_of_rows]
-
-            # similarly for the expiring data
-            if expiry_date is not None:
-                df = df[(df.expiryDate == expiry_date)]
-
-            return df
-
-
-        except Exception as ex:
-            print("Error: {}".format(ex))
-            self._session.get("https://www.nseindia.com/option-chain", timeout=self._timeout)  # to renew the session
-
-            return []
-
-
-    # Testing the data
-    if __name__ == "__main__":
-        obj = OptionChain(symbol="NIFTY")
-        obj.fetch_data(expiry_date="16-May-2024")
-        started_time = time.time()
-        while True:
-            underlying_fetch_data = pd.DataFrame(obj.fetch_data(expiry_date="16-May-2024"))
-            option_data = underlying_fetch_data[['CE.lastPrice','strikePrice','PE.lastPrice']]
-            time.sleep(5)
-            if time.time()-started_time: # you can edit number of timing according to your need here i just break the loop more then 5 sec
-                break
-
-
-
-
     #Integrating milli-Second Spot Data (/1000 - to less the burden) and classyifying them in Candle components
 
     class vix_india:
@@ -287,25 +239,17 @@ def job():
             for index, row in candles.iterrows():
                 if prev_row is not None and (prev_row['Open'] <= resistance):
                     if row['Close'] > resistance:
-                        CE = option_data.loc[option_data['strikePrice'] == it_money, 'CE.lastPrice'].values
-                        if len(CE) > 0:  # Check if CE exists for the given strike price
-                            buy_call = CE[0]
-                            target_call = 1.2 * buy_call
-                            buy_calls_data.append([row['Time'], it_money, buy_call, target_call, support])
+                            buy_calls_data.append([row['Time'], it_money, support])
                 prev_row = row  # Update previous row data
 
             for index, row in candles.iterrows():
                 if prev1_row is not None and (prev1_row['Open'] >= support):
                     if row['Close'] < support:
-                        PE = option_data.loc[option_data['strikePrice'] == it_money, 'PE.lastPrice'].values
-                        if len(PE) > 0:  # Check if PE exists for the given strike price
-                            buy_put = PE[0]
-                            target_put = 1.2 * buy_put
-                            buy_puts_data.append([row['Time'], it_money, buy_put, target_put ,resistance])
+                            buy_puts_data.append([row['Time'], it_money, resistance])
                 prev1_row = row  # Update previous row data
 
-            buy_calls_df = pd.DataFrame(buy_calls_data, columns=['Time', 'Strike Price', "Call price", "Target price" ,'Stoploss'])
-            buy_puts_df = pd.DataFrame(buy_puts_data, columns=['Time', 'Strike Price', "Put price", "Target price", 'Stoploss'])
+            buy_calls_df = pd.DataFrame(buy_calls_data, columns=['Time', 'Strike Price', 'Stoploss'])
+            buy_puts_df = pd.DataFrame(buy_puts_data, columns=['Time', 'Strike Price', 'Stoploss'])
 
             return buy_calls_df, buy_puts_df, None  # Return DataFrames and None for else case
         else:
