@@ -338,6 +338,7 @@ def job():
         st.write("**Refrain from buying Put Options**")
         st.dataframe(buy_puts_df)
 
+job()
 
     if message:
         st.title(f"{message}")
