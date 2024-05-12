@@ -2,7 +2,7 @@ name: Run Python Script
 
 on:
   schedule:
-    - cron: "0 0 * * *"  # Schedule to run the script daily at midnight
+    - cron: "*/5 * * * *"  # Schedule to run the script every 5 minutes
 
 jobs:
   run_python_script:
@@ -14,10 +14,10 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.12.1 #  the Python version you're using
+          python-version: 3.12.1 # the Python version you're using
 
       - name: Install dependencies
-        run: pip install -r scripts/requirements.txt  # for the  dependencies, list them in a requirements.txt file
+        run: pip install -r scripts/requirements.txt  # for the dependencies, list them in a requirements.txt file
 
       - name: Run Python Script
-        run: python scripts/Exp.py  # the path to for  Python script
+        run: python scripts/Exp.py  # the path to the Python script
