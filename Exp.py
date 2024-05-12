@@ -341,5 +341,12 @@ def job():
     if message:
         st.title(f"{message}")
 
-job()
+
+# Schedule the job to run every 15 minutes
+schedule.every(15).minutes.do(job)
+
+# Infinite loop to run the scheduler
+while True:
+    schedule.run_pending()
+    time.sleep(1)  # Adjust sleep time if needed
 
