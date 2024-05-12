@@ -2,7 +2,7 @@ name: Run Python Script
 
 on:
   schedule:
-    - cron: "*/5 * * * *"  # Schedule to run the script every 30 minutes
+    - cron: "*/3 * * * *"  # Schedule to run the script every 30 minutes
 
 jobs:
   run_python_script:
@@ -20,4 +20,4 @@ jobs:
         run: pip install -r requirements.txt  # assuming requirements.txt is in the root directory
 
       - name: Run Python Script
-        run: python scripts/Exp.py  # the path to the Python script
+        run: python Exp.py  # assuming Exp.py is in the root directory
